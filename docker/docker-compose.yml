@@ -1,23 +1,31 @@
-version: '2'
+version: "3"
+
 services:
+
   factorio:
-    build:
-      context: .
-      args:
-        # Check buildinfo.json for supported versions and SHAs
-        # https://github.com/factoriotools/factorio-docker/blob/master/buildinfo.json
-        - VERSION=1.1.104
-        - SHA256=8e13353ab23d57989db7b06594411d30885de1a923f3a989d12749c1abc01583
+    image: factoriotools/factorio
+    container_name: factorio
+    restart: always
+    volumes:
+      - "factorio-data:/data:/factorio"
     ports:
       - "34197:34197/udp"
-      - "27015:27015/tcp"
-    volumes:
-      - /opt/factorio:/factorio
-#    environment:
-#      - PUID=1000
-#      - PGID=1000
-#      - UPDATE_MODS_ON_START=true
-#      - USERNAME=FactorioUsername
-#      - TOKEN=FactorioToken
-#      - PORT=34198
-#      - ADDR=::1
+    deploy:
+      mode: replicated
+      replicas: 1
+    environment:
+      - FACTORIO_SERVER_NAME=Glitch Factorio Server
+      - FACTORIO_SERVER_DESCRIPTION=Welcome to Glitch Factorio server!
+      - FACTORIO_SERVER_VISIBILITY=public
+      - FACTORIO_SERVER_GAME_PASSWORD=f@ct0ry
+      - FACTORIO_SERVER_MAX_PLAYERS=10
+      - FACTORIO_SERVER_ALLOW_COMMANDS=true
+      - FACTORIO_SERVER_AUTOSAVE_INTERVAL=10
+      - FACTORIO_SERVER_AUTOSAVE_SLOTS=5
+volumes:
+  factorio-data:
+      driver: local
+      driver_opts:
+        type: nfs
+        o: addr=192.168.1.X,rw
+        device: ":/mnt/<PATH TO NFS SHARE>/factorio"
