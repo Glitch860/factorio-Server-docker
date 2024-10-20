@@ -80,7 +80,30 @@ Now there's a `server-settings.json` file in the folder `/opt/factorio/config`. 
 docker start factorio
 ```
 
+verify service has deployed successfully by running 
+
+```
+docker stack ls
+```
+
+or
+
+```
+docker service ls
+```
+
 Try to connect to the server. Check the logs if it isn't working.
+### Docker Swarm deployment
+
+> requirement tto have a persistent storage for all hosts/containers.
+
+Ensure you setup the proper folder on the persistent storage location.
+
+Start the container with a command like this:
+
+```shell
+docker stack deploy -c docker-compose.yml factorio
+```
 
 ### Console
 
