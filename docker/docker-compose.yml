@@ -7,7 +7,7 @@ services:
     container_name: factorio
     restart: always
     volumes:
-      - "factorio-data:/data:/factorio"
+      - "factorio-data:/factorio"
     ports:
       - "34197:34197/udp"
     deploy:
